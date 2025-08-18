@@ -6,10 +6,24 @@ import TabButton from './components/TabButton.jsx';
 import { EXAMPLES } from './data.js';
 
 function App() {
-  const [selectedTab, setSelectedTab] = useState('components');
+  const [selectedTab, setSelectedTab] = useState(null);
 
   function handleClick(selectedButton) {
     setSelectedTab(selectedButton);
+  }
+
+  let tabContent = <p>Please select a tab to view the example code.</p>;
+
+  if (selectedTab) {
+    tabContent = <div id='tab-content'>
+      <h3>{EXAMPLES[selectedTab].title}</h3>
+      <p>{EXAMPLES[selectedTab].description}</p>
+      <pre>
+        <code>
+          {EXAMPLES[selectedTab].code}
+        </code>
+      </pre>
+    </div>
   }
 
   return (
@@ -37,15 +51,7 @@ function App() {
             <TabButton onClick={() => { handleClick('props') }}>Props</TabButton>
             <TabButton onClick={() => { handleClick('state') }}>State</TabButton>
           </menu>
-          <div id='tab-content'>
-            <h3>{EXAMPLES[selectedTab].title}</h3>
-            <p>{EXAMPLES[selectedTab].description}</p>
-            <pre>
-              <code>
-                {EXAMPLES[selectedTab].code}
-              </code>
-            </pre>
-          </div>
+          {tabContent}
         </section>
       </main>
     </div>
